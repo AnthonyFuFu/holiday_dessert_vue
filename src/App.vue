@@ -1,8 +1,10 @@
 <template>
-  <nav>
+  <!-- 全域用 -->
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+    <router-link to="/about">About</router-link> | 
+    <router-link to="/index">index</router-link>
+  </nav> -->
   <router-view/>
 </template>
 
@@ -15,16 +17,19 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+* {
+    box-sizing: border-box;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+html {
+    font-size: 62.5%;/*10px*/
+    /*變數的寫法*/
+    --page-width: 1500px;
+    --bg-color: rgb(199, 199, 199);
+    text-align: center;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+body {
+    margin: 0;
 }
 </style>
