@@ -10,6 +10,16 @@ module.exports = {
         port: 8081, // Default port or change to your preferred port
         open: true, // Automatically open the browser
 
+        // proxy: {
+        //     '/holidayDessert': {
+        //       target: 'http://localhost:8080',
+        //       changeOrigin: true,
+        //       ws: true,
+        //       secure: false,
+        //       pathRewrite: { '^/holidayDessert': '' }
+        //     }
+        // }
+
         // 正式機
         // https: {
         //   key: fs.readFileSync('./certs/private.key'),
