@@ -186,11 +186,13 @@
   }
 }
 
-// const data = []
-// axios.get('http://localhost:8080/holidayDessert/getMainProductList')
-// 				.then(response => {
-// 					data = response.data.result;
-// 				})
+ const data = []
+ axios.post('http://192.168.31.32:8080/holidayDessert/getMainProductList')
+ 	.then(response => {
+        data = response.data.result;
+        alert(data)
+    }
+)
 
   </script>
   <style scoped>
