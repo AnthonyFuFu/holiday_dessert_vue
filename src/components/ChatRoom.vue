@@ -1,0 +1,210 @@
+<template>
+	<section>
+		<form id="chatForm" class="chat-area">
+			<div class="chat-container" v-if="isChatOpen">
+				<div class="chat-header">
+					<span>服務員 {{ empName }}</span>
+					<button type="button" class="chat-close" @click="closeChatRoom">&times;</button>
+				</div>
+				<div class="chat-messages" id="chatMessages"></div>
+				<div class="chat-input">
+					<input v-model="msgContent" type="text" placeholder="Type your message...">
+					<button id="sendMessage" class="send-message" @click.prevent="sendMessage">Send</button>
+				</div>
+			</div>
+			<a class="btn-msg" @click.prevent="openChatRoom" v-if="!isChatOpen" href="javascript:void(0);">
+				<i class="material-icons">sms</i>
+			</a>
+		</form>
+	</section>
+</template>
+<script>
+export default {
+	name: 'Chat',
+	data: {
+		// model 屬性
+		memId: '',
+		memName: '',
+		memAccount: '',
+		msgContent: '',
+		roomId: '',
+		roomUrl: '',
+		// 其他屬性
+		empId: '',
+		empName: '',
+		memberSession: '',
+		msgDirection: '1',
+		isChatOpen: false
+	},
+	methods: {
+		openChatRoom() {
+			if (this.memberSession == '') {
+				this.warning('請登入')
+			} else {
+				this.isChatOpen = true;
+				this.getChatRoom();
+				this.getMessageByMem();
+			}
+		},
+		closeChatRoom() {
+			this.isChatOpen = false;
+			if (this.stompClient) {
+				this.stompClient.disconnect(() => console.log('Disconnected'));
+				this.stompClient = null;
+			}
+			if (this.socket) {
+				this.socket.close();
+				this.socket = null;
+			}
+		},
+		sendMessage() {
+			if (!this.msgContent) return;
+			if (!this.stompClient || !this.roomUrl) return;
+			const msg = {
+				memId: this.memId,
+				memName: this.memName,
+				empId: this.empId,
+				msgContent: this.msgContent,
+				roomId: this.roomId,
+				roomUrl: this.roomUrl,
+				msgDirection: this.msgDirection
+			};
+			this.stompClient.send('/app/chat/' + this.roomUrl, {}, JSON.stringify(msg));
+			this.appendMessage(msg);
+			this.msgContent = '';
+		},
+		appendMessage(msg) {
+			const html = this.renderMessage(msg);
+			if (!html) return;
+			$('#chatMessages').append(html);
+			this.scrollToBottom();
+		},
+		renderMessage(msg) {
+			if (msg.direction === 0) {
+				return `
+		            <div class="message chat-left">
+		                <div class="avatar">
+		                    <span class="first-char">
+		                        ${msg.empName ? msg.empName.charAt(0) : ''}
+		                    </span>
+		                </div>
+		                <div class="message-left-text">${msg.content}</div>
+		            </div>
+		        `;
+			}
+			if (msg.direction === 1) {
+				return `
+		            <div class="message chat-right">
+		                <div class="message-right-text">${msg.content}</div>
+		            </div>
+		        `;
+			}
+			return '';
+		},
+		normalizeMessage(raw) {
+			return {
+				direction: Number(raw.MSG_DIRECTION ?? raw.msgDirection),
+				content: raw.MSG_CONTENT ?? raw.msgContent,
+				empName: raw.EMP_NAME ?? raw.empName ?? ''
+			};
+		},
+		scrollToBottom() {
+			const chat = document.getElementById('chatMessages');
+			chat.scrollTo({
+				top: chat.scrollHeight,
+				behavior: 'smooth'
+			});
+		},
+		getChatRoom() {
+			axios.post('/holidayDessert/getChatRoom', {
+				memId: this.memId
+			})
+				.then(response => {
+					if (response.data.code == "200") {
+						this.empId = response.data.result[0].EMP_ID;
+						this.empName = response.data.result[0].EMP_NAME;
+						this.roomId = response.data.result[0].ROOM_ID;
+						this.roomUrl = response.data.result[0].ROOM_URL;
+						this.connectChatRoom();
+					}
+				})
+				.catch(error => {
+					console.log(error);
+					alert("執行失敗");
+				});
+		},
+		getMessageByMem() {
+			$('#chatMessages').empty();
+			axios({
+				method: 'post',
+				url: '/holidayDessert/getMessageByMem',
+				headers: { 'Content-Type': 'application/json' },
+				data: {
+					memId: this.memId,
+					empId: this.empId
+				}
+			})
+				.then(response => {
+					if (response.data.code == "200") {
+						const list = response.data.result;
+						let html = '';
+						list.forEach(raw => {
+							const msg = this.normalizeMessage(raw);
+							html += this.renderMessage(msg);
+						});
+						$('#chatMessages').append(html);
+						this.scrollToBottom();
+					}
+				})
+				.catch(error => {
+					console.log(error);
+					alert("執行失敗");
+				});
+		},
+		connectChatRoom() {
+			if (!this.roomUrl) return;
+			// 建立連線
+			this.socket = new SockJS('/holidayDessert/ws-chat');
+			this.stompClient = Stomp.over(this.socket);
+			// 關閉 debug 訊息
+			this.stompClient.debug = () => { };
+			this.stompClient.connect({}, (frame) => {
+				this.stompClient.subscribe(
+					'/topic/chat/' + this.roomUrl,
+					(message) => {
+						const raw = JSON.parse(message.body);
+						const msg = this.normalizeMessage(raw);
+						this.appendMessage(msg);
+					}
+				);
+			});
+		},
+		loadMemberSession() {
+			var memberSession = localStorage.getItem('memberSession');
+			if (memberSession) {
+				this.updateSession(JSON.parse(memberSession));
+			}
+		},
+		updateSession(memberSession) {
+			this.memberSession = memberSession;
+			this.memId = memberSession.memId;
+			this.memName = memberSession.memName;
+			this.memAccount = memberSession.memAccount;
+			this.memEmail = memberSession.memEmail;
+			this.memGoogleUid = memberSession.memGoogleUid;
+		},
+		warning(message) {
+			swal({
+				title: message,
+				type: "warning",
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "確定",
+				closeOnConfirm: false
+			});
+		}
+	},
+	mounted() {
+		this.loadMemberSession();
+	}
+}
+</script>
