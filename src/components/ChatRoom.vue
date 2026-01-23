@@ -19,22 +19,27 @@
 	</section>
 </template>
 <script>
+import { chatRoomService } from '@/service/ChatRoomService'
+import'@/css/chat.css'
+
 export default {
-	name: 'Chat',
-	data: {
-		// model 屬性
-		memId: '',
-		memName: '',
-		memAccount: '',
-		msgContent: '',
-		roomId: '',
-		roomUrl: '',
-		// 其他屬性
-		empId: '',
-		empName: '',
-		memberSession: '',
-		msgDirection: '1',
-		isChatOpen: false
+	name: 'ChatRoom',
+	data() {
+		return {
+			// model 屬性
+			memId: '',
+			memName: '',
+			memAccount: '',
+			msgContent: '',
+			roomId: '',
+			roomUrl: '',
+			// 其他屬性
+			empId: '',
+			empName: '',
+			memberSession: '',
+			msgDirection: '1',
+			isChatOpen: false
+		};
 	},
 	methods: {
 		openChatRoom() {
@@ -69,7 +74,7 @@ export default {
 				roomUrl: this.roomUrl,
 				msgDirection: this.msgDirection
 			};
-			this.stompClient.send('/app/chat/' + this.roomUrl, {}, JSON.stringify(msg));
+			this.stompClient.send(chatRoomService.send + this.roomUrl, {}, JSON.stringify(msg));
 			this.appendMessage(msg);
 			this.msgContent = '';
 		},
@@ -116,7 +121,7 @@ export default {
 			});
 		},
 		getChatRoom() {
-			axios.post('/holidayDessert/getChatRoom', {
+			axios.post(chatRoomService.getChatRoom(), {
 				memId: this.memId
 			})
 				.then(response => {
@@ -137,7 +142,7 @@ export default {
 			$('#chatMessages').empty();
 			axios({
 				method: 'post',
-				url: '/holidayDessert/getMessageByMem',
+				url: chatRoomService.getMessageByMem(),
 				headers: { 'Content-Type': 'application/json' },
 				data: {
 					memId: this.memId,
@@ -164,13 +169,13 @@ export default {
 		connectChatRoom() {
 			if (!this.roomUrl) return;
 			// 建立連線
-			this.socket = new SockJS('/holidayDessert/ws-chat');
+			this.socket = new SockJS(chatRoomService.registerStompEndpoints());
 			this.stompClient = Stomp.over(this.socket);
 			// 關閉 debug 訊息
 			this.stompClient.debug = () => { };
 			this.stompClient.connect({}, (frame) => {
 				this.stompClient.subscribe(
-					'/topic/chat/' + this.roomUrl,
+					chatRoomService.subscribe + this.roomUrl,
 					(message) => {
 						const raw = JSON.parse(message.body);
 						const msg = this.normalizeMessage(raw);

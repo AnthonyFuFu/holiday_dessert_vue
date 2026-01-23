@@ -24,7 +24,7 @@ npm run serve
 ```
 ### 測試網址
 ```
-http://localhost:8081/index
+http://localhost:8081/holidayDessert/index
 ```
 ### 發布專案 (建立在c:/xampp/htdcos裡面)
 ```
