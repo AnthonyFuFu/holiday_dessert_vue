@@ -1,66 +1,69 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import MemberLayout from '@/layouts/MemberLayout.vue'
+import MainLayout from '@/layouts/MainLayout.vue'
+import HomeView from '@/views/HomeView.vue'
+import ROUTE_URL from '@/constants/routes-url';
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
-    path: '/index',
-    name: 'index',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "index" */ '../views/IndexView.vue')
-  },
-  {
-    path: '/member/login',
-    name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "index" */ '../views/member/Login.vue')
-  },
-  {
-    path: '/member/register',
-    name: 'register',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "index" */ '../views/member/Register.vue')
-  },
-  {
-    path: '/member/verification',
-    name: 'verification',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "index" */ '../views/member/Verification.vue')
-  },
-  {
-    path: '/member/verificationSuccess',
-    name: 'verificationSuccess',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "index" */ '../views/member/VerificationSuccess.vue')
-  }
+const routes = [{
+        path: ROUTE_URL.HOME,
+        name: 'home',
+        component: HomeView
+    },
+    {
+        path: ROUTE_URL.HOME,
+        component: MainLayout,
+        children: [{
+                path: '',
+                redirect: ROUTE_URL.INDEX,
+                pathMatch: 'full'
+            },
+            {
+                path: ROUTE_URL.INDEX,
+                name: 'index',
+                component: () =>
+                    import ('@/views/IndexView.vue')
+            }
+        ]
+    },
+    {
+        path: ROUTE_URL.HOME + ROUTE_URL.MEMBER,
+        component: MemberLayout,
+        children: [{
+                path: '',
+                redirect: ROUTE_URL.MEMBER + '/' + ROUTE_URL.LOGIN
+            },
+            {
+                path: ROUTE_URL.LOGIN,
+                name: 'login',
+                component: () =>
+                    import ('@/views/member/Login.vue')
+            },
+            {
+                path: ROUTE_URL.REGISTER,
+                name: 'register',
+                component: () =>
+                    import ('@/views/member/Register.vue')
+            },
+            {
+                path: ROUTE_URL.VERIFICATION,
+                name: 'verification',
+                component: () =>
+                    import ('@/views/member/Verification.vue')
+            },
+            {
+                path: ROUTE_URL.VERIFICATION_SUCCESS,
+                name: 'verificationSuccess',
+                component: () =>
+                    import ('@/views/member/VerificationSuccess.vue')
+            }
+        ]
+    }
 ]
 
 const router = createRouter({
-  // history: createWebHistory(process.env.BASE_URL),
-  history: createWebHistory('/holidayDessert'),
-  routes
+    // history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory('/holidayDessert'),
+    routes
 })
 
 export default router

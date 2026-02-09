@@ -1,6 +1,4 @@
 <template>
-    <Header />
-
     <section class="banner-box">
         <img class="banner-login" src="/images/banner-login.jpg" alt="banner">
     </section>
@@ -173,7 +171,6 @@
 
     <Form />
     <ChatRoom />
-    <Footer />
 </template>
 
 <script>
@@ -182,16 +179,12 @@ import { indexService } from '@/service/IndexService'
 import '@/css/index.css'
 import '@/assets/plugins/sweetalert/sweetalert.css'
 import '@/assets/plugins/sweetalert/sweetalert.min.js'
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
 import Form from '@/components/Form.vue'
 import ChatRoom from '@/components/ChatRoom.vue'
 
 export default {
     name: 'IndexView',
     components: {
-        Header,
-        Footer,
         Form,
         ChatRoom
     },

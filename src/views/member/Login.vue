@@ -1,10 +1,7 @@
 <template>
-	<Header />
-
 	<section class="banner-box">
 		<img class="banner-login" src="/images/banner-login.jpg" alt="banner">
 	</section>
-
 	<main class="main">
 		<section class="login-section">
 			<form id="login" class="login-area">
@@ -51,7 +48,6 @@
 			</form>
 		</section>
 	</main>
-
 </template>
 
 <script>
@@ -59,15 +55,11 @@ import { indexService } from '@/service/IndexService'
 import '@/assets/plugins/sweetalert/sweetalert.css'
 import '@/assets/plugins/sweetalert/sweetalert.min.js'
 import '@/css/login.css'
-import Header from '@/components/Header.vue'
 
 import { getSession, setSession, removeSession } from '@/utils/storage';
 
 export default {
-	name: 'login', // 使用多單詞名稱以符合 vue/multi-word-component-names
-	components: {
-		Header
-	},
+	name: 'login',
 	data() {
 		return {
 			// model 屬性

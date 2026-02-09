@@ -1,10 +1,7 @@
 <template>
-	<Header />
-
 	<section class="banner-box">
 		<img class="banner-login" src="/images/banner-login.jpg" alt="banner">
 	</section>
-
 	<main class="main">
 		<section class="register-section">
 			<form class="register-area">
@@ -53,20 +50,15 @@
 			</form>
 		</section>
 	</main>
-
 </template>
 
 <script>
 import '@/assets/plugins/sweetalert/sweetalert.css'
 import '@/assets/plugins/sweetalert/sweetalert.min.js'
 import '@/css/login.css'
-import Header from '@/components/Header.vue'
 
 export default {
-	name: 'register', // 使用多單詞名稱以符合 vue/multi-word-component-names
-	components: {
-		Header
-	}
+	name: 'register',
 }
 
 </script>
