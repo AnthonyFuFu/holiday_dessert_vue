@@ -21,6 +21,10 @@ export const indexService = {
     getNewList() {
         return BACKEND_URL + API_PATHS.NEW_LIST;
     },
+    // 送出表單
+    sendForm() {
+        return BACKEND_URL + API_PATHS.SEND_FORM;
+    },
     // 執行登出操作
     logout() {
         return BACKEND_URL + API_PATHS.LOGOUT;

@@ -16,7 +16,7 @@ export const API_PATHS = {
   NEW_ARRIVAL_LIST: '/holidayDessert/getNewArrivalList',
   COMMENT_LIST: '/holidayDessert/getCommentList',
   NEW_LIST: '/holidayDessert/getNewList',
-
+  SEND_FORM: '/holidayDessert/form/sendForm',
   // 會員相關
   LOGOUT: '/holidayDessert/front/logout',
   LOGIN: '/holidayDessert/front/login',
