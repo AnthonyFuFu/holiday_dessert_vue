@@ -11,14 +11,14 @@ export const chatRoomService = {
   },
   // 前端 send 的路徑
   send() {
-    return BACKEND_URL + API_PATHS.SEND;
+    return API_PATHS.SEND;  // 直接返回 '/app/chat/' 這邊會在端點連線基礎上send資料 所以不用加BACKEND_URL
   },
   // 建立端點連線
   registerStompEndpoints() {
-    return BACKEND_URL + API_PATHS.END_POINT;
+    return BACKEND_URL + API_PATHS.END_POINT;  // 添加基本 URL
   },
   // 前端 subscribe 的路徑
   subscribe() {
-    return BACKEND_URL + API_PATHS.SUBSCRIBE;
+    return API_PATHS.SUBSCRIBE;  // 直接返回 '/topic/chat/' 這邊會在端點連線基礎上subscribe節點 所以不用加BACKEND_URL
   },
 };

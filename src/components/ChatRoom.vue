@@ -74,7 +74,7 @@ export default {
 				roomUrl: this.roomUrl,
 				msgDirection: this.msgDirection
 			};
-			this.stompClient.send(chatRoomService.send + this.roomUrl, {}, JSON.stringify(msg));
+			this.stompClient.send(chatRoomService.send() + this.roomUrl, {}, JSON.stringify(msg));
 			this.appendMessage(msg);
 			this.msgContent = '';
 		},
@@ -175,7 +175,7 @@ export default {
 			this.stompClient.debug = () => { };
 			this.stompClient.connect({}, (frame) => {
 				this.stompClient.subscribe(
-					chatRoomService.subscribe + this.roomUrl,
+					chatRoomService.subscribe() + this.roomUrl,
 					(message) => {
 						const raw = JSON.parse(message.body);
 						const msg = this.normalizeMessage(raw);
