@@ -29,6 +29,8 @@
 
 <script>
 import { indexService } from '@/service/IndexService';
+import { warning } from '@/utils/notification';
+import { isCellphone, isEmail } from '@/utils/regex';
 import axios from 'axios';
 import'@/css/contact-us.css'
 
@@ -43,38 +45,30 @@ export default {
         }
     },
 	methods: {
-		isCellphone(cellphone) {
-			//手機格式 正規則
-			return /^[09]{2}[0-9]{8}$/.test(cellphone);
-		},
-		isEmail(email) {
-			//RFC822 正規則
-			return /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/.test(email);	
-		},
 		checkForm() {
 			//驗證資料
 			if (this.formCreateBy == null || this.formCreateBy == '') {
-				this.warning("請輸入中文姓名");
+				warning("請輸入中文姓名");
 				this.$refs.formCreateBy.focus();
 				return false;
 			} else if (this.formPhone == null || this.formPhone == '') {
-				this.warning("請輸入行動電話");
+				warning("請輸入行動電話");
 				this.$refs.formPhone.focus();
 				return false;
-			} else if (!this.isCellphone(this.formPhone)) {
-				this.warning("行動電話格式不正確，請確認行動電話號碼");
+			} else if (!isCellphone(this.formPhone)) {
+				warning("行動電話格式不正確，請確認行動電話號碼");
 				this.$refs.formPhone.focus();
 				return false;
 			} else if (this.formEmail == null || this.formEmail == '') {
-				this.warning("請輸入電子信箱");
+				warning("請輸入電子信箱");
 				this.$refs.formEmail.focus();
 				return false;
-			} else if (!this.isEmail(this.formEmail)) {
-				this.warning("電子信箱格式錯誤,請確認妳的電子信箱是不是合法的");
+			} else if (!isEmail(this.formEmail)) {
+				warning("電子信箱格式錯誤,請確認妳的電子信箱是不是合法的");
 				this.$refs.formEmail.focus();
 				return false;
 			} else if (this.formContent == null || this.formContent == '') {
-				this.warning("請輸入您的訊息");
+				warning("請輸入您的訊息");
 				this.$refs.formContent.focus();
 				return false;
 			}
@@ -93,7 +87,7 @@ export default {
 				        alert(response.data.MSG);
 					    location.reload();
 					} else {
-						this.warning(response.data.MSG);
+						warning(response.data.MSG);
 					}
 				})
 				.catch(error => {
@@ -101,24 +95,6 @@ export default {
 					alert("執行失敗");
 				});
 			}
-		},
-		success(message) {
-			swal({
-				title: message,
-				type: "success",
-				showCancelButton: false,
-				confirmButtonColor: "#3085d6",
-				confirmButtonText: "確定"
-			});
-		},
-		warning(message) {
-			swal({
-				title: message,
-				type: "warning",
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "確定",
-				closeOnConfirm: false
-			});
 		}
 	}
 }

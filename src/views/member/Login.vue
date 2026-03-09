@@ -52,6 +52,7 @@
 
 <script>
 import { indexService } from '@/service/IndexService'
+import { warning } from '@/utils/notification';
 import '@/assets/plugins/sweetalert/sweetalert.css'
 import '@/assets/plugins/sweetalert/sweetalert.min.js'
 import '@/css/login.css'
@@ -90,7 +91,7 @@ export default {
 			})
 				.then(response => {
 					if (response.data.STATUS == "N") {
-						this.warning(response.data.MSG);
+						warning(response.data.MSG);
 					} else if (this.$route.path.includes("/member/verification")) {
 						this.$router.push("/index");
 					} else {
@@ -102,7 +103,7 @@ export default {
 				})
 				.catch(error => {
 					console.log(error);
-					this.warning("執行失敗");
+					warning("執行失敗");
 				});
 		},
 		loadMemberSession() {
@@ -127,7 +128,7 @@ export default {
 				}
 			} catch (error) {
 				console.error(error);
-				this.warning("執行失敗");
+				warning("執行失敗");
 				throw error; // 抛出錯誤以便上層捕獲
 			}
 		},
@@ -145,15 +146,6 @@ export default {
 		},
 		toggleRememberMe() {
 			this.rememberMe = !this.rememberMe;
-		},
-		warning(message) {
-			swal({
-				title: message,
-				type: "warning",
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "確定",
-				closeOnConfirm: false
-			});
 		}
 	},
 	mounted() {

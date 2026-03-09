@@ -20,6 +20,7 @@
 </template>
 <script>
 import { chatRoomService } from '@/service/ChatRoomService'
+import { warning } from '@/utils/notification';
 import'@/css/chat.css'
 
 export default {
@@ -44,7 +45,7 @@ export default {
 	methods: {
 		openChatRoom() {
 			if (this.memberSession == '') {
-				this.warning('請登入')
+				warning('請登入')
 			} else {
 				this.isChatOpen = true;
 				this.getChatRoom();
@@ -197,15 +198,6 @@ export default {
 			this.memAccount = memberSession.memAccount;
 			this.memEmail = memberSession.memEmail;
 			this.memGoogleUid = memberSession.memGoogleUid;
-		},
-		warning(message) {
-			swal({
-				title: message,
-				type: "warning",
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "確定",
-				closeOnConfirm: false
-			});
 		}
 	},
 	mounted() {

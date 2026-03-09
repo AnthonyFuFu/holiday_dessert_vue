@@ -61,6 +61,7 @@
 <script>
 import { indexService } from '@/service/IndexService';
 import { getSession, removeSession } from '@/utils/storage';
+import { warning } from '@/utils/notification';
 import'@/css/header.css';
 
 export default {
@@ -91,7 +92,7 @@ export default {
                 .post(indexService.logout())
                 .then((response) => {
                     if (response.data.STATUS === 'N') {
-                        this.warning(response.data.MSG);
+                        warning(response.data.MSG);
                     } else {
                         removeSession('memberSession');
                         this.memberSession = null;
@@ -100,7 +101,7 @@ export default {
                 })
                 .catch((error) => {
                     console.error(error);
-                    this.warning('執行失敗');
+                    warning('執行失敗');
                 });
         },
         loadMemberSession() {
@@ -112,15 +113,6 @@ export default {
         updateSession(memberSession) {
             this.memberSession = memberSession;
             Object.assign(this.memberData, memberSession);
-        },
-        warning(message) {
-            swal({
-                title: message,
-                type: "warning",
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "確定",
-                closeOnConfirm: false
-            });
         }
     },
     mounted() {
