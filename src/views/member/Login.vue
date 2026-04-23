@@ -38,8 +38,7 @@
 						<a href="/front/member/FBLogin"><img src="/images/FB-logo.svg" alt="FB-logo"></a>
 					</div>
 					<div class="circle-container">
-						<a href="/front/member/googleLogin" @click.prevent="googleLogin"><img
-								src="/images/google-logo.svg" alt="google-logo"></a>
+						<a href="#" @click.prevent="googleLogin"><img src="/images/google-logo.svg" alt="google-logo"></a>
 					</div>
 					<div class="circle-container">
 						<a href="/front/member/LineLogin"><img src="/images/Line-logo.svg" alt="Line-logo"></a>
@@ -112,25 +111,26 @@ export default {
 				this.updateSession(memberSession);
 			}
 		},
-		async googleLogin() {
-			try {
-				const response = await axios.post(indexService.googleLogin());
-				if (response.data.STATUS === "N") {
-					return { status: "N", memberSession: '' };
-				} else if (response.data.STATUS === "GLN") {
-					return { status: "GLN", memberSession: '' };
-				} else {
-					const memberSession = response.data.memberSession;
-					setSession('memberSession', memberSession);
-					this.updateSession(memberSession);
-					window.location.href = "/index";
-					return { status: "GLY", memberSession: memberSession };
-				}
-			} catch (error) {
-				console.error(error);
-				warning("執行失敗");
-				throw error; // 抛出錯誤以便上層捕獲
-			}
+		googleLogin() {
+			// try {
+			// 	const response = await axios.post(indexService.googleLogin());
+			// 	if (response.data.STATUS === "N") {
+			// 		return { status: "N", memberSession: '' };
+			// 	} else if (response.data.STATUS === "GLN") {
+			// 		return { status: "GLN", memberSession: '' };
+			// 	} else {
+			// 		const memberSession = response.data.memberSession;
+			// 		setSession('memberSession', memberSession);
+			// 		this.updateSession(memberSession);
+			// 		window.location.href = "/index";
+			// 		return { status: "GLY", memberSession: memberSession };
+			// 	}
+			// } catch (error) {
+			// 	console.error(error);
+			// 	warning("執行失敗");
+			// 	throw error; // 抛出錯誤以便上層捕獲
+			// }
+			window.location.href = indexService.googleLogin();
 		},
 		updateSession(memberSession) {
 			this.memberSession = memberSession;

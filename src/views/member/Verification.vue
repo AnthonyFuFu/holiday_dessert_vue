@@ -21,11 +21,55 @@
 </template>
 
 <script>
+import { success, warning } from '@/utils/notification';
+import { isEmail } from '@/utils/regex';
+import { verificationService } from '@/service/VerificationService';
 import '@/assets/plugins/sweetalert/sweetalert.css'
 import '@/assets/plugins/sweetalert/sweetalert.min.js'
 import '@/css/verification.css'
 
 export default {
     name: 'verification',
+	data() {
+		return {
+			// model 屬性
+			memEmail: ''
+		};
+	},
+	methods: {
+	    checkForm() {
+			//驗證資料
+			if (this.memEmail == null || this.memEmail == '') {
+				warning("請輸入電子信箱");
+				this.$refs.memEmail.focus();
+				return false;
+			} else if (!isEmail(this.memEmail)) {
+				warning("電子信箱格式錯誤,請確認妳的電子信箱是不是合法的");
+				this.$refs.memEmail.focus();
+				return false;
+			}
+			return true;
+		},
+        reSendEmail() {
+			if (this.checkForm()) {
+				axios.post(verificationService.reSendEmail(), {
+					memEmail: this.memEmail
+				})
+				.then(response => {
+					if (response.data.STATUS == "F") {
+						warning(response.data.MSG);
+					} else if (response.data.STATUS == "RS") {
+						success(response.data.MSG);
+					} else {
+						success(response.data.MSG);
+					}
+				})
+				.catch(error => {
+					console.log(error);
+					warning("執行失敗");
+				});
+			}
+		}
+    }
 }
 </script>

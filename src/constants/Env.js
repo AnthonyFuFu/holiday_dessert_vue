@@ -22,6 +22,13 @@ export const API_PATHS = {
   LOGIN: '/holidayDessert/front/login',
   GOOGLE_LOGIN: '/holidayDessert/front/google/login',
 
+  // 註冊相關
+  REGISTER: '/holidayDessert/member/register',
+  CHECK_MEMBER_ACCOUNT_EMAIL: '/holidayDessert/member/checkMemberAccountEmail',
+
+  // 重新寄送驗證信
+  RESEND_EMAIL: '/holidayDessert/member/reSendEmail',
+
   // 聊天室相關
   CHAT_ROOM: '/holidayDessert/getChatRoom',
   GET_MESSAGE_BY_MEM: '/holidayDessert/getMessageByMem',
