@@ -116,7 +116,23 @@ export default {
         }
     },
     mounted() {
-        this.loadMemberSession();
+        const urlParams = new URLSearchParams(window.location.search);
+		if (urlParams.get('googleLogin') === 'true') {
+			history.replaceState(null, '', window.location.pathname);
+            alert(indexService.googleLogin())
+			axios.get(indexService.googleLogin())
+				.then(response => {
+                        alert(response.data)
+					if (response.data.STATUS === 'GLY') {
+                        alert(response.data)
+						localStorage.setItem('memberSession', JSON.stringify(response.data.memberSession));
+						this.updateSession(response.data.memberSession);
+					}
+				})
+				.catch(error => console.log(error));
+		} else {
+			this.loadMemberSession();
+		}
     }
 }
 </script>

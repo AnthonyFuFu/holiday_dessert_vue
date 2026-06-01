@@ -44,7 +44,9 @@ export default {
 	},
 	methods: {
 		openChatRoom() {
-			if (this.memberSession == '') {
+			// 每次點擊都重新讀，避免 Google OAuth2 的非同步時序問題
+			this.loadMemberSession();
+			if (!this.memberSession) {
 				warning('請登入')
 			} else {
 				this.isChatOpen = true;
