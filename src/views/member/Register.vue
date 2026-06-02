@@ -193,27 +193,6 @@ export default {
 			}
 		},
 		googleLogin() {
-			// return new Promise((resolve, reject) => {
-			// 	axios.post('/holidayDessert/front/google/login')
-			// 		.then(response => {
-			// 			if (response.data.STATUS == "N") {
-			// 				resolve({ status: "N", memberSession: '' });
-			// 			} else if (response.data.STATUS == "GLN") {
-			// 				resolve({ status: "GLN", memberSession: '' });
-			// 			} else {
-			// 				var memberSession = response.data.memberSession;
-			// 				localStorage.setItem('memberSession', JSON.stringify(memberSession));
-			// 				this.updateSession(memberSession);
-			// 				resolve({ status: "GLY", memberSession: memberSession });
-			// 				$(location).attr("href", "/holidayDessert/index.html");
-			// 			}
-			// 		})
-			// 		.catch(error => {
-			// 		console.log(error);
-			// 		warning("執行失敗");
-			// 		reject(error);
-			// 	});
-			// });
 			window.location.href = registerService.googleLogin();
 		},
 		updateSession(memberSession) {

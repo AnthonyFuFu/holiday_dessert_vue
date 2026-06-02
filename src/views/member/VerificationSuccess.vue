@@ -10,7 +10,7 @@
                     <div class="email-block">
                         <div>親愛的會員您好，歡迎您成為假日甜點網站會員，點擊【<span class="gold">完成認證</span>】後開始瀏覽本站</div>
                     </div>
-                    <div class="verification-submit"><a href="/holidayDessert/index">完成認證</a></div>
+                    <div class="verification-submit"><router-link to="/index">完成認證</router-link></div>
                 </div>
             </form>
         </section>

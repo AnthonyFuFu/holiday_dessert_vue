@@ -11,8 +11,11 @@
                         </div>
                     </div>
                     <ul class="logo">
-                        <li><a href="/holidayDessert/index"><img src="/images/logo.svg"
-                                    alt="HolidayDessertLogo"></a></li>
+                        <li>
+                            <router-link to="/index">
+                                <img src="/images/logo.svg" alt="HolidayDessertLogo">
+                            </router-link>
+                        </li>
                     </ul>
                     <ul class="news">
                         <li>最新消息</li>
@@ -47,8 +50,7 @@
                         <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a></li>
                     </ul>
                     <ul class="sign">
-                        <li v-if="!memberSession"><a href="/holidayDessert/member/login"
-                                class="sign_in"><span>登入</span></a></li>
+                        <li v-if="!memberSession"><router-link to="/member/login" class="sign_in"><span>登入</span></router-link></li>
                         <li v-else><a href="javascript:void(0);" class="sign_in" @click="logout"><span>登出</span></a>
                         </li>
                     </ul>

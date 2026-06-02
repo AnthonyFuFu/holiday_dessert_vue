@@ -1,14 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MemberLayout from '@/layouts/MemberLayout.vue'
 import MainLayout from '@/layouts/MainLayout.vue'
-import HomeView from '@/views/HomeView.vue'
 import ROUTE_URL from '@/constants/routes-url';
 
-const routes = [{
-        path: ROUTE_URL.HOME,
-        name: 'home',
-        component: HomeView
-    },
+const routes = [
     {
         path: ROUTE_URL.HOME,
         component: MainLayout,

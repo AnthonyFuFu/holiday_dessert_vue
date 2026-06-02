@@ -9,32 +9,35 @@ export const BACKEND_URL = 'http://localhost:8080'
 // export const FRONT_IMAGE_PREFIX =
 //   `${BACKEND_BASE_URL}/holidayDessert/front/images/`
 
+const BASE_PATH = '/holidayDessert'
+
 export const API_PATHS = {
-  // index 相關
-  MAIN_PRODUCT_LIST: '/holidayDessert/getMainProductList',
-  POPULAR_LIST: '/holidayDessert/getPopularList',
-  NEW_ARRIVAL_LIST: '/holidayDessert/getNewArrivalList',
-  COMMENT_LIST: '/holidayDessert/getCommentList',
-  NEW_LIST: '/holidayDessert/getNewList',
-  SEND_FORM: '/holidayDessert/form/sendForm',
-  // 會員相關
-  LOGOUT: '/holidayDessert/front/logout',
-  LOGIN: '/holidayDessert/front/login',
-  GOOGLE_LOGIN: '/holidayDessert/front/google/login',
+  // ===== 首頁相關 =====
+  MAIN_PRODUCT_LIST:         `${BASE_PATH}/getMainProductList`,
+  POPULAR_LIST:              `${BASE_PATH}/getPopularList`,
+  NEW_ARRIVAL_LIST:          `${BASE_PATH}/getNewArrivalList`,
+  COMMENT_LIST:              `${BASE_PATH}/getCommentList`,
+  NEW_LIST:                  `${BASE_PATH}/getNewList`,
+  SEND_FORM:                 `${BASE_PATH}/form/sendForm`,
 
-  // 註冊相關
-  REGISTER: '/holidayDessert/member/register',
-  CHECK_MEMBER_ACCOUNT_EMAIL: '/holidayDessert/member/checkMemberAccountEmail',
+  // ===== 會員相關 =====
+  LOGOUT:                    `${BASE_PATH}/front/logout`,
+  LOGIN:                     `${BASE_PATH}/front/login`,
+  GOOGLE_LOGIN:              `${BASE_PATH}/front/google/login`,
 
-  // 重新寄送驗證信
-  RESEND_EMAIL: '/holidayDessert/member/reSendEmail',
+  // ===== 註冊相關 =====
+  REGISTER:                  `${BASE_PATH}/member/register`,
+  CHECK_MEMBER_ACCOUNT_EMAIL:`${BASE_PATH}/member/checkMemberAccountEmail`,
 
-  // 聊天室相關
-  CHAT_ROOM: '/holidayDessert/getChatRoom',
-  GET_MESSAGE_BY_MEM: '/holidayDessert/getMessageByMem',
+  // ===== 重新寄送驗證信 =====
+  RESEND_EMAIL:              `${BASE_PATH}/member/reSendEmail`,
 
-  // 建立連線
-  SEND: '/app/chat/',
-  END_POINT: '/holidayDessert/ws-chat',
-  SUBSCRIBE: '/topic/chat/',
+  // ===== 聊天室相關 =====
+  CHAT_ROOM:                 `${BASE_PATH}/getChatRoom`,
+  GET_MESSAGE_BY_MEM:        `${BASE_PATH}/getMessageByMem`,
+
+  // ===== WebSocket =====
+  SEND:                      '/app/chat/',
+  END_POINT:                 `${BASE_PATH}/ws-chat`,
+  SUBSCRIBE:                 '/topic/chat/',
 };
