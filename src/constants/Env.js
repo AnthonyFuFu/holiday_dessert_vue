@@ -40,4 +40,5 @@ export const API_PATHS = {
   SEND:                      '/app/chat/',
   END_POINT:                 `${BASE_PATH}/ws-chat`,
   SUBSCRIBE:                 '/topic/chat/',
+  ERRORS:                    '/user/queue/errors',
 };

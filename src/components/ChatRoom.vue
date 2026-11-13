@@ -78,7 +78,8 @@ export default {
 				msgDirection: this.msgDirection
 			};
 			this.stompClient.send(chatRoomService.send() + this.roomUrl, {}, JSON.stringify(msg));
-			this.appendMessage(msg);
+			// 不在本地先 append：等後端存檔成功並廣播回 /topic/chat/{roomUrl} 時再顯示，
+			// 跟客服端行為一致，也避免重複顯示；失敗時會從 /user/queue/errors 收到通知
 			this.msgContent = '';
 		},
 		appendMessage(msg) {
@@ -183,6 +184,14 @@ export default {
 						const raw = JSON.parse(message.body);
 						const msg = this.normalizeMessage(raw);
 						this.appendMessage(msg);
+					}
+				);
+				// 後端 @MessageExceptionHandler 的錯誤通知（只會送給自己）
+				this.stompClient.subscribe(
+					chatRoomService.errors(),
+					(message) => {
+						const body = JSON.parse(message.body);
+						warning(body.message || '訊息傳送失敗');
 					}
 				);
 			});

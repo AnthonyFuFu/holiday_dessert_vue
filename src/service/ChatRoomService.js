@@ -21,4 +21,8 @@ export const chatRoomService = {
   subscribe() {
     return API_PATHS.SUBSCRIBE;  // 直接返回 '/topic/chat/' 這邊會在端點連線基礎上subscribe節點 所以不用加BACKEND_URL
   },
+  // 個人錯誤通知的 subscribe 路徑
+  errors() {
+    return API_PATHS.ERRORS;
+  },
 };
