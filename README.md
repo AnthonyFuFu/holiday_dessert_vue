@@ -10,6 +10,7 @@
 [![Vue CLI](https://img.shields.io/badge/Vue%20CLI-5-4FC08D?logo=vuedotjs&logoColor=white)](https://cli.vuejs.org/)
 [![Axios](https://img.shields.io/badge/Axios-1.x-5A29E4?logo=axios&logoColor=white)](https://axios-http.com/)
 [![Sass](https://img.shields.io/badge/Sass-CC6699?logo=sass&logoColor=white)](https://sass-lang.com/)
+[![CI](https://img.shields.io/badge/GitHub%20Actions-CI-2088FF?logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
 
 🔗 後端專案：[holidayDessert](https://github.com/AnthonyFuFu/holidayDessert)
 
@@ -26,7 +27,7 @@
 - ✅ 環境需求
 - ⚙️ 設定
 - 🚀 啟動方式
-- 📦 打包發布
+- 📦 打包發布與 CI
 - 🔗 測試網址
 - 📚 參考資料
 
@@ -48,7 +49,7 @@ HolidayDessert Vue 是 [holidayDessert](https://github.com/AnthonyFuFu/holidayDe
 | 分類 | 技術 |
 | --- | --- |
 | 🧑‍💻 框架 | Vue 3、Vue Router 4（History 模式）、Vuex 4 |
-| 🧰 建置工具 | Vue CLI 5、Babel、Sass |
+| 🧰 建置工具 | Vue CLI 5、Babel、Sass、GitHub Actions |
 | 🌐 HTTP | Axios（`withCredentials` 攜帶 Session Cookie） |
 | 💬 即時通訊 | SockJS + STOMP（連線後端 `/ws-chat`） |
 | 🎨 UI | jQuery、SweetAlert、Material Icons、vue3-carousel、Owl Carousel |
@@ -133,13 +134,19 @@ npm run serve
 
 ---
 
-## 📦 打包發布
+## 📦 打包發布與 CI
 
 ```bash
 npm run build
 ```
 
 打包結果輸出至 `dist/`，部署時需設定伺服器將 `/holidayDessert/*` 的請求導回 `index.html`（History 模式）。
+
+[GitHub Actions](.github/workflows/ci.yml) 會在 `master` 分支 push 或 PR 時自動執行：
+
+1. 以 Node.js 22 依 `package-lock.json` 安裝套件（`npm ci`）
+2. 打包（`npm run build`），失敗即代表這次修改有問題
+3. 將 `dist/` 上傳為 Artifact，可在 Actions 頁面下載（保存 7 天）
 
 ---
 

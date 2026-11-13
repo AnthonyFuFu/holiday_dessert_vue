@@ -4,6 +4,9 @@
 # ===== Dependencies =====
 node_modules/
 
+# ===== Build output（由 CI 產生，不納入版控）=====
+dist/
+
 # ===== Env files =====
 .env
 .env.local
